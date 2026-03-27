@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة متقان | التعديل السريع</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .admin-container { padding: 80px 8%; max-width: 1200px; margin: 0 auto; }
+        .admin-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 30px; }
+        .admin-form, .manage-section { 
+            background: var(--card-bg); padding: 25px; border-radius: 20px; border: 1px solid #333; 
+        }
+        .admin-form { position: sticky; top: 100px; height: fit-content; }
+        input { width: 100%; padding: 12px; margin-bottom: 15px; background: #0a0a0a; border: 1px solid #333; color: white; border-radius: 10px; }
+        
+        /* تصميم قائمة المنتجات */
+        .admin-product-item { 
+            display: flex; align-items: center; gap: 15px; padding: 15px; border-bottom: 1px solid #222; 
+        }
+        .admin-product-item img { width: 50px; height: 50px; border-radius: 8px; object-fit: cover; }
+        .admin-product-info { flex: 1; }
+        
+        /* أزرار التحكم */
+        .controls { display: flex; gap: 10px; }
+        .edit-btn { background: #ffcc00; color: black; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .delete-btn { background: #ff4444; color: white; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; }
+        
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--primary-color); text-decoration: none; margin-bottom: 20px; }
+        
+        @media (max-width: 900px) { .admin-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+    <div class="admin-container">
+        <a href="index.html" class="back-link"><i data-lucide="arrow-right"></i> العودة للمتجر</a>
+        
+        <div class="admin-grid">
+            <div class="admin-form">
+                <h2 id="form-title">إضافة منتج جديد</h2>
+                <form id="productForm">
+                    <input type="hidden" id="editIndex" value="-1">
+                    <input type="text" id="pName" placeholder="اسم المنتج" required>
+                    <input type="number" id="pPrice" placeholder="السعر (EGP)" required>
+                    <input type="url" id="pImage" placeholder="رابط الصورة" required>
+                    <button type="submit" id="submit-btn" class="btn-primary" style="width: 100%;">نشر المنتج</button>
+                    <button type="button" id="cancel-edit" class="btn-primary" style="width: 100%; margin-top: 10px; background: #444; display: none;">إلغاء التعديل</button>
+                </form>
+            </div>
+
+            <div class="manage-section">
+                <h2>المنتجات الحالية (<span id="p-count">0</span>)</h2>
+                <div id="admin-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let products = JSON.parse(localStorage.getItem('metqanProducts')) || [];
+
+        function renderAdminList() {
+            const list = document.getElementById('admin-list');
+            document.getElementById('p-count').innerText = products.length;
+            list.innerHTML = '';
+            
+            products.forEach((p, index) => {
+                list.innerHTML += `
+                    <div class="admin-product-item">
+                        <img src="${p.image}">
+                        <div class="admin-product-info">
+                            <h4>${p.name}</h4>
+                            <p style="color: var(--primary-color)">${p.price} EGP</p>
+                        </div>
+                        <div class="controls">
+                            <button class="edit-btn" onclick="prepareEdit(${index})">تعديل</button>
+                            <button class="delete-btn" onclick="deleteProduct(${index})">حذف</button>
+                        </div>
+                    </div>
+                `;
+            });
+            lucide.createIcons();
+        }
+
+        document.getElementById('productForm').onsubmit = (e) => {
+            e.preventDefault();
+            const index = document.getElementById('editIndex').value;
+            const productData = {
+                id: index == -1 ? Date.now() : products[index].id,
+                name: document.getElementById('pName').value,
+                price: document.getElementById('pPrice').value,
+                image: document.getElementById('pImage').value
+            };
+
+            if (index == -1) {
+                products.push(productData);
+            } else {
+                products[index] = productData;
+                resetForm();
+            }
+
+            localStorage.setItem('metqanProducts', JSON.stringify(products));
+            renderAdminList();
+            e.target.reset();
+        };
+
+        window.prepareEdit = (index) => {
+            const p = products[index];
+            document.getElementById('pName').value = p.name;
+            document.getElementById('pPrice').value = p.price;
+            document.getElementById('pImage').value = p.image;
+            document.getElementById('editIndex').value = index;
+            
+            document.getElementById('form-title').innerText = "تعديل المنتج";
+            document.getElementById('submit-btn').innerText = "حفظ التعديلات";
+            document.getElementById('cancel-edit').style.display = "block";
+        };
+
+        function resetForm() {
+            document.getElementById('editIndex').value = -1;
+            document.getElementById('form-title').innerText = "إضافة منتج جديد";
+            document.getElementById('submit-btn').innerText = "نشر المنتج";
+            document.getElementById('cancel-edit').style.display = "none";
+        }
+
+        document.getElementById('cancel-edit').onclick = () => {
+            document.getElementById('productForm').reset();
+            resetForm();
+        };
+
+        window.deleteProduct = (index) => {
+            if(confirm('حذف المنتج؟')) {
+                products.splice(index, 1);
+                localStorage.setItem('metqanProducts', JSON.stringify(products));
+                renderAdminList();
+            }
+        };
+
+        renderAdminList();
+        // حماية الصفحة: إذا لم يكن الأدمن مسجلاً، يتم طرده لصفحة اللوجن
+if (sessionStorage.getItem('isAdmin') !== 'true') {
+    window.location.href = 'login.html';
+}
+
+// دالة لتسجيل الخروج (أضفها لزر الخروج إذا أردت)
+function logout() {
+    sessionStorage.removeItem('isAdmin');
+    window.location.href = 'login.html';
+}
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <a href="index.html" class="back-link"><i data-lucide="arrow-right"></i> العودة للمتجر</a>
+    <button onclick="logout()" style="background: none; border: 1px solid #ff4444; color: #ff4444; padding: 5px 10px; border-radius: 5px; cursor: pointer;">تسجيل الخروج</button>
+</div>
+    </script>
+</body>
+</html>

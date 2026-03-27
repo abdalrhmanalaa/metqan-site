@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تم إرسال الطلب | متقان</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .success-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+        .success-icon { color: #25d366; margin-bottom: 20px; }
+        .success-card {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid var(--primary-color);
+            max-width: 500px;
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <div class="success-card fade-in visible">
+            <i data-lucide="check-circle" size="80" class="success-icon"></i>
+            <h1>شكراً لثقتك في متقان!</h1>
+            <p style="margin: 20px 0; color: var(--text-gray);">
+                تم توجيه طلبك بنجاح إلى خدمة العملاء عبر واتساب. 
+                سيقوم فريقنا بمراجعة الطلب والتواصل معك لتأكيد الشحن.
+            </p>
+            <div style="background: #111; padding: 15px; border-radius: 10px; margin-bottom: 25px;">
+                <p>🚚 مدة التوصيل المتوقعة: 3 - 5 أيام عمل</p>
+            </div>
+            <a href="index.html" class="btn-primary">العودة للمتجر</a>
+        </div>
+    </div>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

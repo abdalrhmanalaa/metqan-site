@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متقان | METQAN - ملابس الشارع</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+    <div class="delivery-bar">شحن سريع لجميع المحافظات خلال 3-5 أيام عمل 🚚</div>
+
+    <nav class="navbar">
+        <div class="logo">متقان<span>.</span></div>
+        <ul class="nav-links">
+            <li><a href="#home">الرئيسية</a></li>
+            <li><a href="#products">المنتجات</a></li>
+            <li><a href="#about">عن متقان</a></li>
+            <!-- <li><a href="admin.html" class="admin-btn">لوحة التحكم</a></li> -->
+             <li><a href="login.html" class="admin-btn">لوحة التحكم</a></li>
+        </ul>
+        <div class="cart-icon">
+            <i data-lucide="shopping-bag"></i>
+            <span id="cart-count">0</span>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="hero-content fade-in visible">
+            <h1>الأناقة تبدأ من <span>الإتقان</span></h1>
+            <p>أزياء تحاكي روح الشارع وتعبّر عن شخصيتك الفريدة.</p>
+            <a href="#products" class="btn-primary">تسوق المجموعة الجديدة</a>
+        </div>
+    </section>
+
+    <section id="products" class="products">
+        <h2 class="section-title">أحدث التصاميم</h2>
+        <div class="products-container" id="products-list">
+            </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="about-container">
+            <h2>عن متقان</h2>
+            <p>براند "متقان" ليس مجرد ملابس، بل هو ثقافة تجمع بين الفن والإتقان في التفاصيل لتقديم تجربة ارتداء فريدة لجيل الشباب.</p>
+        </div>
+    </section>
+
+    <div id="cart-sidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h2>سلة المشتريات</h2>
+            <button id="close-cart" class="close-btn">&times;</button>
+        </div>
+        <div id="cart-items-container" class="cart-items-list"></div>
+        <div class="cart-footer">
+            <div class="total-price">الإجمالي: <span id="cart-total-amount">0</span> EGP</div>
+            <button class="btn-whatsapp" onclick="checkoutWhatsApp()">
+                إتمام الطلب عبر واتساب <i data-lucide="message-circle"></i>
+            </button>
+        </div>
+    </div>
+    <div id="cart-overlay" class="cart-overlay"></div>
+
+    <a href="https://wa.me/201000000000" class="whatsapp-float" target="_blank">
+        <i data-lucide="message-circle"></i>
+    </a>
+
+    <footer>
+        <p>جميع الحقوق محفوظة لبراند متقان &copy; 2026</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

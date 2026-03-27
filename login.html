@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>تسجيل دخول الأدمن | متقان</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .login-container { height: 100vh; display: flex; align-items: center; justify-content: center; }
+        .login-card { background: var(--card-bg); padding: 40px; border-radius: 20px; border: 1px solid #333; width: 100%; max-width: 400px; text-align: center; }
+        input { width: 100%; padding: 12px; margin: 10px 0; background: #000; border: 1px solid #333; color: white; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <h2>دخول الإدارة 🔐</h2>
+            <p style="color: #888; margin-bottom: 20px;">يرجى إدخال كلمة المرور للمتابعة</p>
+            <input type="password" id="adminPass" placeholder="كلمة المرور">
+            <button onclick="checkLogin()" class="btn-primary" style="width: 100%;">دخول</button>
+            <br><br>
+            <a href="index.html" style="color: var(--primary-color); text-decoration: none;">العودة للمتجر</a>
+        </div>
+    </div>
+
+    <script>
+        function checkLogin() {
+            const pass = document.getElementById('adminPass').value;
+            // يمكنك تغيير كلمة المرور "metqan2026" لأي شيء تريده
+            if (pass === "metqan2026") {
+                sessionStorage.setItem('isAdmin', 'true'); // حفظ حالة الدخول مؤقتاً
+                window.location.href = 'admin.html';
+            } else {
+                alert("كلمة المرور غير صحيحة!");
+            }
+        }
+    </script>
+</body>
+</html>
